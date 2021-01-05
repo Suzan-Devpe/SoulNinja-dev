@@ -48,7 +48,6 @@ const server = http.createServer((req, res) => {
         "Content-Type": "application/json",
         "X-Powered-By": "Node.js",
       });
-
       res.end(JSON.stringify(response));
     });
 });

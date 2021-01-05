@@ -1,7 +1,6 @@
 const app = require('express')();
 
-// // express app
-// const app = express();
+app.set('view engine', 'ejs');
 
 app.listen(6969, () => {
     console.log("listening on http://localhost:6969");
