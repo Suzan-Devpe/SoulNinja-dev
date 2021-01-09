@@ -11,14 +11,14 @@ app.get('/', (req, res) => {
 });
 
 app.get('/about', (req, res) => {
-    res.send("<p>about page</p>");
+    res.render('about');
 });
 
-app.get('/about-us', (req, res) => {
-    res.redirect('/about');
+app.get('/blogs/create', (req, res) => {
+    res.render('create');
 });
 
 // 404 page
 app.use((req, res) => {
-    res.status(404).sendFile('./public/404.html', { root: __dirname });
+    res.status(404).render('404');
 });
