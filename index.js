@@ -7,7 +7,13 @@ app.listen(6969, () => {
 });
 
 app.get('/', (req, res) => {
-    res.render('index', { title: 'Home' });
+
+    const blogs = [
+        {title: 'Bruh bruh bruh', snippet: 'lorem doesnt work on javascript files! awesome'},
+        {title: 'ur mom', snippet: 'I wont finish the third blog hehe'},
+        {title: 'pls dont make this repo public', snippet: 'this is the third blog and '}
+    ];
+    res.render('index', { title: 'Home', blogs: blogs });
 });
 
 app.get('/about', (req, res) => {

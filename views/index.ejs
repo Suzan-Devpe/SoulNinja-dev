@@ -22,6 +22,10 @@
 
     <div class="blogs content">
         <h2>All Blogs</h2>
+        <% blogs.forEach(element => { %>
+         <h4><%= element.title %> </h4>
+         <p> <%= element.snippet %> </p>
+        <% }) %>
     </div>
 
 </body>
