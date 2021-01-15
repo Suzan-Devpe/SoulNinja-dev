@@ -1,25 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= title %></title>
-</head>
-<body>
-    
-    <nav>
-        <div class="site-title">
-            <a href="/"><h1>Blog</h1></a>
-            <p>Made by soulninja</p>
-        </div>
-        <ul>
-            <li><a href="/">Blogs</a></li>
-            <li><a href="/about">About</a></li>
-            <li><a href="/blogs/create">New Blog</a></li>
-        </ul>
-    </nav>
 
+<head>
+    <%- include('../partials/head.ejs') %>
+<body>
+    <%- include('../partials/nav.ejs') %>
     <div class="create-blog content">
         <form>
             <label for="title">Blog title:</label>
@@ -35,5 +20,6 @@
         </form>
     </div>
 
+    <%- include('../partials/footer.ejs') %>
 </body>
 </html

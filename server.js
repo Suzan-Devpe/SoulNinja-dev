@@ -1,5 +1,4 @@
 const http = require("http");
-
 const todos = [
   { id: 1, text: "Todo One" },
   { id: 2, text: "Todo Two" },
@@ -19,7 +18,7 @@ const server = http.createServer((req, res) => {
       const response = {
         success: false,
         data: null,
-		error: null
+        error: null,
       };
       body = Buffer.concat(body).toString();
 
@@ -36,7 +35,7 @@ const server = http.createServer((req, res) => {
 
         if (!id || !text) {
           status = 400;
-		  response.error = "please add id and text";
+          response.error = "please add id and text";
         } else {
           todos.push({ id, text });
           status = 201;
