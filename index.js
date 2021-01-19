@@ -1,11 +1,23 @@
+// express app
 const app = require("express")();
 
+// uri of the database
+const dbURI =
+  "mongodb+srv://soulninja:password17@learnmongo.dkeod.mongodb.net/nodejscrashcourse?retryWrites=true&w=majority";
+
+// mongoose db
+const mongoose = require("mongoose");
+
+mongoose
+  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then((result) => { app.listen(6969); console.log("listening on http://localhost:6969 \nConnected to DB")})
+  .catch((err) => console.log(err));
+
+
+// setting the view engine as ejs
 app.set("view engine", "ejs");
 
-app.listen(6969, () => {
-  console.log("listening on http://localhost:6969");
-});
-
+// root
 app.get("/", (req, res) => {
   const blogs = [
     {
@@ -21,16 +33,14 @@ app.get("/", (req, res) => {
   res.render("index", { title: "Home", blogs: blogs });
 });
 
+// about route
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
 
+// create blog route
 app.get("/blogs/create", (req, res) => {
   res.render("create", { title: "Create" });
-});
-
-app.get("/", (req, res) => {
-  res.send("<h1>Hello ur in the index</h1>");
 });
 
 // 404 page
