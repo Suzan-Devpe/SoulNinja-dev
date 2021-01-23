@@ -1,5 +1,8 @@
-// express app
-const app = require("express")();
+// imports
+const express = require("express");
+const app = express();
+const morgan = require("morgan");
+const Blog = require("./models/blog");
 
 // uri of the database
 const dbURI =
@@ -10,12 +13,39 @@ const mongoose = require("mongoose");
 
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then((result) => { app.listen(6969); console.log("listening on http://localhost:6969 \nConnected to DB")})
+  .then((result) => {
+    app.listen(6969);
+    console.log("listening on http://localhost:6969 \nConnected to DB");
+  })
   .catch((err) => console.log(err));
-
 
 // setting the view engine as ejs
 app.set("view engine", "ejs");
+
+// middleware & static files
+app.use(express.static("public"));
+app.use(morgan("dev"));
+
+// mongoose and mongo sandbox routes
+app.get("/add-blog", (req, res) => {
+    const blog = new Blog({
+        title: "New Blog",
+        snippet: "My new blog",
+        body: "body of my new blog"
+    });
+    
+    blog.save().then((result) => {
+        res.send(result);
+    }).catch((err) => {
+        console.log(err);
+    });
+});
+
+app.get("/all-blogs", (req, res) => {
+    Blog.find().then((result) => {
+        res.send(result);
+    }).catch((err) => console.log(err));
+});
 
 // root
 app.get("/", (req, res) => {
