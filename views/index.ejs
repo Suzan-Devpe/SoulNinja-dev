@@ -6,9 +6,11 @@
     <div class="blogs content">
         <h2>All Blogs</h2>
         <% blogs.forEach(element => { %>
-         <h4><%= element.title %> </h4>
+            <a class="single" href="/blogs/<%= element._id %>"> 
+         <h3><%= element.title %> </h3>
          <p> <%= element.snippet %> </p>
-        <% }) %>
+            </a>
+        <% }); %>
     </div>
 
     <%- include('../partials/footer.ejs') %>
