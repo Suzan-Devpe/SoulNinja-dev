@@ -14,7 +14,7 @@ const dbURI =
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
-    app.listen(6969);
+    app.listen(process.env.PORT || 6969);
     console.log("listening on http://localhost:6969 \nConnected to DB");
   })
   .catch((err) => console.log(err));
