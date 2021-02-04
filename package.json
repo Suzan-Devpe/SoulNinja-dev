@@ -2,12 +2,12 @@
   "name": "nodehttp",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "author": "",
+  "author": "SoulNinja-dev",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.7"
