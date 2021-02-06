@@ -1,5 +1,4 @@
 // imports
-
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
@@ -14,8 +13,8 @@ const dbURI =
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
-    app.listen(process.env.PORT || 25448);
-    console.log("listening on http://localhost:6969 \nConnected to DB");
+    app.listen(process.env.PORT || 3000);
+    console.log(`listening on http://localhost:${process.env.PORT || 3000} \nConnected to DB`);
   })
   .catch((err) => console.log(err));
 
