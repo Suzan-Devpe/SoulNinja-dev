@@ -7,8 +7,7 @@ const mongoose = require("mongoose");
 const blogRoutes = require("./routes/blogRoutes");
 
 // uri of the database
-const dbURI =
-  "mongodb+srv://soulninja:password17@learnmongo.dkeod.mongodb.net/nodejscrashcourse?retryWrites=true&w=majority";
+const dbURI = "mongodb://localhost:27017/blog";
 
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
