@@ -5,19 +5,19 @@ const morgan = require("morgan");
 // mongoose db
 const mongoose = require("mongoose");
 const blogRoutes = require("./routes/blogRoutes");
+// dotenv
+const dotenv = require("dotenv");
+dotenv.config({ path: "./config/.env" });
 
 // uri of the database
-const dbURI = "mongodb://localhost:27017/blog";
+const dbURI = process.env.DBURI.toString();
+const PORT = process.env.PORT || 3000;
 
 mongoose
   .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
-    app.listen(process.env.PORT || 3000);
-    console.log(
-      `listening on http://localhost:${
-        process.env.PORT || 3000
-      } \nConnected to DB`
-    );
+    app.listen(PORT);
+    console.log(`listening on http://localhost:${PORT} \nConnected to DB`);
   })
   .catch((err) => console.log(err));
 
