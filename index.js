@@ -4,10 +4,15 @@ const app = express();
 const morgan = require("morgan");
 // mongoose db
 const mongoose = require("mongoose");
+// routes
 const blogRoutes = require("./routes/blogRoutes");
+const authRoutes = require("./routes/authRoutes");
 // dotenv
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config/.env" });
+
+// auth
+const { checkAuthenticated, checkNotAuthenticated } = require("./config/auth");
 
 // uri of the database
 const dbURI = process.env.DBURI.toString();
@@ -34,6 +39,8 @@ app.use(morgan("dev"));
 app.get("/", (req, res) => {
   res.redirect("/blogs");
 });
+
+app.get("/auth", authRoutes);
 
 // about route
 app.get("/about", (req, res) => {
