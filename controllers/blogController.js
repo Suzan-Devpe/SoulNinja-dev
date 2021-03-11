@@ -17,6 +17,7 @@ const blog_index = (req, res) => {
 
 const blog_post = (req, res) => {
 	const blog = new Blog(req.body);
+	console.log(req.body);
 
 	blog.save()
 		.then((result) => {
