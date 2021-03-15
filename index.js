@@ -10,6 +10,20 @@ const authRoutes = require("./routes/authRoutes");
 // dotenv
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config/.env" });
+// passport
+const passport = require("passport");
+const flash = require("express-flash");
+const session = require("express-session");
+const methodOverride = require("method-override");
+
+const initializePassport = require("./config/passport");
+const getUserByEmail = require("./config/getUserByEmail");
+const getUserById = require("./config/getUserById");
+initializePassport(
+  passport,
+  (email) => getUserByEmail,
+  (id) => getUserById
+);
 
 // auth
 const { checkAuthenticated, checkNotAuthenticated } = require("./config/auth");
@@ -33,21 +47,35 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
+app.use(flash());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(methodOverride("_method"));
 
 // routes
 // root
-app.get("/", (req, res) => {
+app.get("/", checkAuthenticated, (req, res) => {
   res.redirect("/blogs");
 });
 
-app.get("/auth", authRoutes);
-
 // about route
-app.get("/about", (req, res) => {
+app.get("/about", checkAuthenticated, (req, res) => {
   res.render("about", { title: "About" });
 });
 
-app.use("/blogs", blogRoutes);
+// blogs controller
+app.use("/blogs", checkAuthenticated, blogRoutes);
+
+// auth controller
+app.use("/auth", authRoutes);
 
 // 404 page
 app.use((req, res) => {
