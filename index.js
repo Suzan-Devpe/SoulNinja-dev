@@ -26,7 +26,7 @@ initializePassport(
 );
 
 // auth
-const { checkAuthenticated, checkNotAuthenticated } = require("./config/auth");
+const { checkAuthenticated } = require("./config/auth");
 
 // uri of the database
 const dbURI = process.env.DBURI.toString();
