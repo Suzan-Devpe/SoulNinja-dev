@@ -14,7 +14,6 @@ dotenv.config({ path: "./config/.env" });
 const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
-const methodOverride = require("method-override");
 
 const initializePassport = require("./config/passport");
 const getUserByEmail = require("./config/getUserByEmail");
@@ -58,7 +57,6 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(methodOverride("_method"));
 
 // routes
 // root

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { checkAuthenticated, checkNotAuthenticated } = require("../config/auth");
 const passport = require("passport");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 
 router.get("/login", checkNotAuthenticated, (req, res) => {
@@ -65,7 +65,7 @@ router.post("/register", (req, res) => {
                   "success_msg",
                   "You are now registered and can log in"
                 );
-                res.redirect("/auth/login");
+                res.redirect("/");
               })
               .catch((err) => console.log(err));
           });
@@ -73,6 +73,11 @@ router.post("/register", (req, res) => {
       }
     });
   }
+});
+
+router.get("/logout", (req, res) => {
+  req.logout();
+  res.redirect("/auth/login");
 });
 
 module.exports = router;
