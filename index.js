@@ -14,10 +14,10 @@ dotenv.config({ path: "./config/.env" });
 const passport = require("passport");
 const flash = require("express-flash");
 const session = require("express-session");
-
 const initializePassport = require("./config/passport");
 const getUserByEmail = require("./config/getUserByEmail");
 const getUserById = require("./config/getUserById");
+// init passport
 initializePassport(
   passport,
   (email) => getUserByEmail,
