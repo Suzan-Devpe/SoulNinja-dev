@@ -19,7 +19,7 @@ router.post(
 );
 
 router.get("/register", checkNotAuthenticated, (req, res) => {
-  res.render("register.ejs");
+  res.render("login");
 });
 
 router.post("/register", (req, res) => {
@@ -36,12 +36,12 @@ router.post("/register", (req, res) => {
 
   if (errors.length > 0) {
     // implement errors
-    res.render("register");
+    res.render("login");
   } else {
     User.findOne({ email: email }).then((user) => {
       if (user) {
         errors.push({ msg: "Email already exists" });
-        res.render("register", {
+        res.render("login", {
           errors,
           name,
           email,
