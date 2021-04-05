@@ -2,30 +2,16 @@
 const express = require("express");
 const app = express();
 const morgan = require("morgan");
+
 // mongoose db
 const mongoose = require("mongoose");
+
 // routes
 const blogRoutes = require("./routes/blogRoutes");
-const authRoutes = require("./routes/authRoutes");
+
 // dotenv
 const dotenv = require("dotenv");
 dotenv.config({ path: "./config/.env" });
-// passport
-const passport = require("passport");
-const flash = require("express-flash");
-const session = require("express-session");
-const initializePassport = require("./config/passport");
-const getUserByEmail = require("./config/getUserByEmail");
-const getUserById = require("./config/getUserById");
-// init passport
-initializePassport(
-  passport,
-  (email) => getUserByEmail,
-  (id) => getUserById
-);
-
-// auth
-const { checkAuthenticated } = require("./config/auth");
 
 // uri of the database
 const dbURI = process.env.DBURI.toString();
@@ -46,34 +32,20 @@ app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
-app.use(flash());
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: false,
-  })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // routes
 // root
-app.get("/", checkAuthenticated, (req, res) => {
+app.get("/", (req, res) => {
   res.redirect("/blogs");
 });
 
 // about route
-app.get("/about", checkAuthenticated, (req, res) => {
+app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
 
 // blogs controller
-app.use("/blogs", checkAuthenticated, blogRoutes);
-
-// auth controller
-app.use("/auth", authRoutes);
+app.use("/blogs", blogRoutes);
 
 // 404 page
 app.use((req, res) => {
