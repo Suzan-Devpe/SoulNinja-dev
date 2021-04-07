@@ -8,6 +8,7 @@ const mongoose = require("mongoose");
 
 // routes
 const blogRoutes = require("./routes/blogRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 // dotenv
 const dotenv = require("dotenv");
@@ -30,6 +31,7 @@ app.set("view engine", "ejs");
 
 // middleware & static files
 app.use(express.static("public"));
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
@@ -46,6 +48,9 @@ app.get("/about", (req, res) => {
 
 // blogs controller
 app.use("/blogs", blogRoutes);
+
+// auth controller
+app.use("/auth", authRoutes);
 
 // 404 page
 app.use((req, res) => {
