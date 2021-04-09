@@ -5,26 +5,20 @@ const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user");
 
 const getSignUp = async (req, res, next) => {
-  res.render("login.ejs");
+  res.redirect("/login.html");
 };
 
 const postSignUp = async (req, res, next) => {
   const { name, email, password } = req.body;
-
+  console.log(name, email, password);
   if (!name || typeof name != "string") {
-    // TODO: make frontend recieve json
-    // return res.json({ status: "error", error: "Name is not a string" });
-    return res.redirect("/auth/login");
+    return res.json({ status: "error", error: "Name is not a string" });
   }
   if (!password || password.length < 8) {
-    // TODO: make frontend recieve json
-    /*
     return res.json({
       status: "error",
       error: "Password is not secure enough",
     });
-    */
-    return res.redirect("/");
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
@@ -36,21 +30,17 @@ const postSignUp = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    // TODO: same thing
-    // return res.json({ success: true });
-    return res.redirect("/");
+    return res.json({ success: true });
   } catch (err) {
     if (err.code === 11000) {
-      // TODO: same thing
-      // return res.json({ status: "error", error: err.message });
-      return res.redirect("/auth/login");
+      return res.json({ status: "error", error: err.message });
     }
     throw err;
   }
 };
 
 const getLogin = async (req, res, next) => {
-  res.render("login.ejs");
+  res.redirect("/login.html");
 };
 
 const postLogin = async (req, res, next) => {

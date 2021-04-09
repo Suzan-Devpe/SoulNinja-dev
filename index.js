@@ -26,6 +26,10 @@ mongoose
   })
   .catch((err) => console.log(err));
 
+// cors
+const cors = require("cors");
+app.use(cors());
+
 // setting the view engine as ejs
 app.set("view engine", "ejs");
 
