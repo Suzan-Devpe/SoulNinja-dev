@@ -258,3 +258,8 @@ footer a {
   color: #3c97bf;
   text-decoration: none;
 }
+
+#signup-error {
+  padding-top: 15px;
+  color: red;
+}

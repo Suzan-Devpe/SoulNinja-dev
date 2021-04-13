@@ -9,10 +9,11 @@
   <div class="form-container sign-up-container">
     <form id="signup-form">
       <h1>Create Account</h1>
-      <input type="text" placeholder="Name" id="signup-name" required />
-      <input type="email" placeholder="Email" id="signup-email" required />
-      <input type="password" placeholder="Password" id="signup-password" required />
+      <input type="text" placeholder="Name" id="signup-name" autocomplete="off" required />
+      <input type="email" placeholder="Email" id="signup-email" autocomplete="off" required />
+      <input type="password" placeholder="Password" id="signup-password" autocomplete="off" required />
       <button type="submit" id="sign-up-button">Sign Up</button>
+      <label for="error" id="signup-error"></label>
     </form>
   </div>
 

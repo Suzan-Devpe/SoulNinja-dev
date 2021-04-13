@@ -1,8 +1,6 @@
 const signUpButton = document.getElementById("signUp");
 const signInButton = document.getElementById("signIn");
 const container = document.getElementById("container");
-const signinform = document.getElementById("signin-form");
-const signupform = document.getElementById("signup-form");
 
 signUpButton.addEventListener("click", () => {
   container.classList.add("right-panel-active");
@@ -12,27 +10,36 @@ signInButton.addEventListener("click", () => {
   container.classList.remove("right-panel-active");
 });
 
-signupform.addEventListener("submit", register);
+// sign up elements
+const signupform = document.getElementById("signup-form");
 
-async function register(event) {
-  event.preventDefault;
-  const name = document.getElementById("signup-name").value;
-  const password = document.getElementById("signup-password").value;
-  const email = document.getElementById("signup-email").value;
+signupform.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const name = document.getElementById("signup-name");
+  const email = document.getElementById("signup-email");
+  const password = document.getElementById("signup-password");
 
-  console.log(name, password, email);
+  const errorLabel = document.getElementById("signup-error");
 
-  const result = await fetch("/auth/signup", {
+  // fetch, POST - /auth/signup, content-type json, body: name, email, password
+  const res = await fetch("/auth/signup", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      name,
-      email,
-      password,
+      name: name.value,
+      email: email.value,
+      password: password.value,
     }),
   }).then((res) => res.json());
 
-  console.log(result);
-}
+  if (res.status == "ok") {
+    alert("ok");
+  } else {
+    errorLabel.innerHTML = res.error;
+  }
+  name.value = "";
+  email.value = "";
+  password.value = "";
+});

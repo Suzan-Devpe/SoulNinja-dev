@@ -10,7 +10,6 @@ const getSignUp = async (req, res, next) => {
 
 const postSignUp = async (req, res, next) => {
   const { name, email, password } = req.body;
-  console.log(name, email, password);
   if (!name || typeof name != "string") {
     return res.json({ status: "error", error: "Name is not a string" });
   }
@@ -30,10 +29,10 @@ const postSignUp = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    return res.json({ success: true });
+    return res.json({ status: "ok" });
   } catch (err) {
     if (err.code === 11000) {
-      return res.json({ status: "error", error: err.message });
+      return res.json({ status: "error", error: "Duplicate value found" });
     }
     throw err;
   }
@@ -79,6 +78,7 @@ const postLogin = async (req, res, next) => {
   res.redirect("/auth/login");
 };
 
+// todo: logout functionality
 const logOut = async (req, res, next) => {
   res.json({ success: true });
 };
