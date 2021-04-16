@@ -263,3 +263,8 @@ footer a {
   padding-top: 15px;
   color: red;
 }
+
+#signin-error {
+  padding-top: 15px;
+  color: red;
+}

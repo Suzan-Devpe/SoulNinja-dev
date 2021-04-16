@@ -19,7 +19,11 @@ const dbURI = process.env.DBURI.toString();
 const PORT = process.env.PORT || 3000;
 
 mongoose
-  .connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(dbURI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   .then((result) => {
     app.listen(PORT);
     console.log(`listening on http://localhost:${PORT} \nConnected to DB`);

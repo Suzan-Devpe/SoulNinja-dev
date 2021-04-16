@@ -1,15 +1,3 @@
-const signUpButton = document.getElementById("signUp");
-const signInButton = document.getElementById("signIn");
-const container = document.getElementById("container");
-
-signUpButton.addEventListener("click", () => {
-  container.classList.add("right-panel-active");
-});
-
-signInButton.addEventListener("click", () => {
-  container.classList.remove("right-panel-active");
-});
-
 // sign up elements
 const signupform = document.getElementById("signup-form");
 
@@ -21,8 +9,8 @@ signupform.addEventListener("submit", async (event) => {
 
   const errorLabel = document.getElementById("signup-error");
 
-  // fetch, POST - /auth/signup, content-type json, body: name, email, password
-  const res = await fetch("/auth/signup", {
+  // fetch, POST - /auth/register, content-type json, body: name, email, password
+  const res = await fetch("/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +23,7 @@ signupform.addEventListener("submit", async (event) => {
   }).then((res) => res.json());
 
   if (res.status == "ok") {
-    alert("ok");
+    alert("ok, bye");
   } else {
     errorLabel.innerHTML = res.error;
   }

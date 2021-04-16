@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const {
-  getSignUp,
-  postSignUp,
+  getRegister,
+  postRegister,
   getLogin,
   postLogin,
   logOut,
@@ -9,7 +9,7 @@ const {
 
 const router = new Router();
 
-router.route("/signup").get(getSignUp).post(postSignUp);
+router.route("/register").get(getRegister).post(postRegister);
 router.route("/login").get(getLogin).post(postLogin);
 router.route("/logout").delete(logOut);
 

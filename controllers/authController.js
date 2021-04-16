@@ -1,17 +1,21 @@
-// getSignUp, postSignUp, getLogin, postLogin, logOut
+// getRegister, postRegister, getLogin, postLogin, logOut
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user");
+const path = require("path");
 
-const getSignUp = async (req, res, next) => {
-  res.redirect("/login.html");
+const getRegister = async (req, res, next) => {
+  res.sendFile(path.join(__dirname, "/../public/register.html"));
 };
 
-const postSignUp = async (req, res, next) => {
+const postRegister = async (req, res, next) => {
   const { name, email, password } = req.body;
   if (!name || typeof name != "string") {
-    return res.json({ status: "error", error: "Name is not a string" });
+    return res.json({
+      status: "error",
+      error: "Name doesnt pass all criterias",
+    });
   }
   if (!password || password.length < 8) {
     return res.json({
@@ -39,7 +43,7 @@ const postSignUp = async (req, res, next) => {
 };
 
 const getLogin = async (req, res, next) => {
-  res.redirect("/login.html");
+  res.sendFile(path.join(__dirname, "/../public/login.html"));
 };
 
 const postLogin = async (req, res, next) => {
@@ -52,14 +56,10 @@ const postLogin = async (req, res, next) => {
   console.log(user);
 
   if (!user) {
-    // TODO: same thing
-    /*
     return res.json({
       status: "error",
       error: "Username / password incorrect",
     });
-    */
-    return res.redirect("/auth/login");
   }
 
   if (await bcrypt.compare(password, user.password)) {
@@ -68,14 +68,10 @@ const postLogin = async (req, res, next) => {
       process.env.JWT_SECRET
     );
 
-    // TODO
-    // return res.json({ status: "ok", data: token });
-    return res.redirect("/");
+    return res.json({ status: "ok", data: token });
   }
 
-  // TODO
-  // res.json({ status: "error", error: "Username / password incorrect" });
-  res.redirect("/auth/login");
+  res.json({ status: "error", error: "Username / password incorrect" });
 };
 
 // todo: logout functionality
@@ -84,8 +80,8 @@ const logOut = async (req, res, next) => {
 };
 
 module.exports = {
-  getSignUp,
-  postSignUp,
+  getRegister,
+  postRegister,
   getLogin,
   postLogin,
   logOut,
