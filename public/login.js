@@ -20,9 +20,10 @@ signinform.addEventListener("submit", async (event) => {
 
   if (res.status == "ok") {
     localStorage.setItem("token", res.data);
+    window.location = "/blogs";
   } else {
     errorLabel.innerHTML = res.error;
   }
 
-  email.value = "";
+  password.value = "";
 });

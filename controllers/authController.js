@@ -5,6 +5,14 @@ const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user");
 const path = require("path");
 
+// 3 days
+const expireTime = 3 * 24 * 60 * 60;
+const createToken = (id, name) => {
+  return jwt.sign({ id, name }, process.env.JWT_SECRET, {
+    expiresIn: expireTime,
+  })
+}
+
 const getRegister = async (req, res, next) => {
   res.sendFile(path.join(__dirname, "/../public/register.html"));
 };
@@ -27,12 +35,14 @@ const postRegister = async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   try {
-    await UserModel.create({
+    const user = await UserModel.create({
       name: name,
       email: email,
       password: hashedPassword,
     });
 
+    const token = createToken(user.id, name);
+    res.cookie("jwt", token, { httpOnly: true, maxAge: expireTime * 1000 });
     return res.json({ status: "ok" });
   } catch (err) {
     if (err.code === 11000) {

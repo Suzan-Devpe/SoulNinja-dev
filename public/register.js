@@ -23,7 +23,7 @@ signupform.addEventListener("submit", async (event) => {
   }).then((res) => res.json());
 
   if (res.status == "ok") {
-    alert("ok, bye");
+    window.location = "/blogs";
   } else {
     errorLabel.innerHTML = res.error;
   }
