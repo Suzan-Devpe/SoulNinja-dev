@@ -22,12 +22,14 @@ signupform.addEventListener("submit", async (event) => {
     }),
   }).then((res) => res.json());
 
-  if (res.status == "ok") {
-    window.location = "/blogs";
-  } else {
-    errorLabel.innerHTML = res.error;
-  }
-  name.value = "";
-  email.value = "";
-  password.value = "";
+
+	if (res.status == "ok") {
+		window.location = "/blogs";
+	} else {
+		errorLabel.innerHTML = res.error;
+	}
+
+	// only password field will be cleared
+	password.value = "";
+  
 });

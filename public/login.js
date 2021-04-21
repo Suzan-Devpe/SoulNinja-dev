@@ -25,5 +25,6 @@ signinform.addEventListener("submit", async (event) => {
     errorLabel.innerHTML = res.error;
   }
 
+  // only the password field is cleared
   password.value = "";
 });
