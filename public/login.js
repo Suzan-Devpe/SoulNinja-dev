@@ -19,11 +19,10 @@ signinform.addEventListener("submit", async (event) => {
   }).then((res) => res.json());
 
   if (res.status == "ok") {
-    localStorage.setItem("token", res.data);
-    window.location = "/blogs";
-  } else {
-    errorLabel.innerHTML = res.error;
-  }
+		window.location = "/blogs";
+	} else {
+		errorLabel.innerHTML = res.error;
+	}
 
   // only the password field is cleared
   password.value = "";

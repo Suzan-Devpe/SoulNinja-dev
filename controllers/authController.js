@@ -3,7 +3,6 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user");
-const path = require("path");
 
 // 3 days
 const expireTime = 3 * 24 * 60 * 60;
@@ -14,7 +13,7 @@ const createToken = (id, name) => {
 };
 
 const getRegister = async (req, res, next) => {
-	res.sendFile(path.join(__dirname, "/../public/register.html"));
+	res.render("register");
 };
 
 const postRegister = async (req, res, next) => {
@@ -55,35 +54,28 @@ const postRegister = async (req, res, next) => {
 };
 
 const getLogin = async (req, res, next) => {
-	res.sendFile(path.join(__dirname, "/../public/login.html"));
+	res.render("login");
 };
 
-const postLogin = async (req, res, next) => {
+const postLogin = async (req, res) => {
 	const { email, password } = req.body;
 
-	const user = await UserModel.findOne({
-		email: email,
-	}).lean();
+	try {
+		// logging in user using the static method we put in the model
+		const user = await UserModel.login(email, password);
 
-	console.log(user);
-
-	if (!user) {
-		return res.json({
-			status: "error",
-			error: "Username / password incorrect",
-		});
+		// creating the token to send back to the browser as a 🍪
+		const token = createToken(user.id, user.name);
+		res.cookie("jwt", token, { httpOnly: true, maxAge: expireTime * 1000 });
+		res.status(200).json({ status: "ok" });
+	} catch (err) {
+		if (err.message === "incorrect") {
+			console.log("found error m8");
+			res
+				.status(400)
+				.json({ status: "error", error: "Incorrect email / password" });
+		}
 	}
-
-	if (await bcrypt.compare(password, user.password)) {
-		const token = jwt.sign(
-			{ id: user._id, name: user.name },
-			process.env.JWT_SECRET
-		);
-
-		return res.json({ status: "ok", data: token });
-	}
-
-	res.json({ status: "error", error: "Username / password incorrect" });
 };
 
 // todo: logout functionality
