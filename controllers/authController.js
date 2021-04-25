@@ -70,7 +70,6 @@ const postLogin = async (req, res) => {
 		res.status(200).json({ status: "ok" });
 	} catch (err) {
 		if (err.message === "incorrect") {
-			console.log("found error m8");
 			res
 				.status(400)
 				.json({ status: "error", error: "Incorrect email / password" });
@@ -78,9 +77,9 @@ const postLogin = async (req, res) => {
 	}
 };
 
-// todo: logout functionality
 const logOut = async (req, res, next) => {
-	res.json({ success: true });
+	res.cookie("jwt", "", { maxAge: 1 });
+	res.redirect("/");
 };
 
 module.exports = {

@@ -20,16 +20,16 @@ const dbURI = process.env.DBURI.toString();
 const PORT = process.env.PORT || 3000;
 
 mongoose
-  .connect(dbURI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then((result) => {
-    app.listen(PORT);
-    console.log(`listening on http://localhost:${PORT} \nConnected to DB`);
-  })
-  .catch((err) => console.log(err));
+	.connect(dbURI, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useCreateIndex: true,
+	})
+	.then((result) => {
+		app.listen(PORT);
+		console.log(`listening on http://localhost:${PORT} \nConnected to DB`);
+	})
+	.catch((err) => console.log(err));
 
 // cors
 const cors = require("cors");
@@ -45,24 +45,27 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 app.use(morgan("dev"));
 
+// custom middleware
+const protectRoute = require("./middlewares/auth");
+
 // routes
 // root
 app.get("/", (req, res) => {
-  res.redirect("/blogs");
+	res.redirect("/blogs");
 });
 
 // about route
 app.get("/about", (req, res) => {
-  res.render("about", { title: "About" });
+	res.render("about", { title: "About" });
 });
 
 // blogs controller
-app.use("/blogs", blogRoutes);
+app.use("/blogs", protectRoute, blogRoutes);
 
 // auth controller
 app.use("/auth", authRoutes);
 
 // 404 page
 app.use((req, res) => {
-  res.status(404).render("404", { title: "Not found" });
+	res.status(404).render("404", { title: "Not found" });
 });
