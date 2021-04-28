@@ -46,17 +46,21 @@ app.use(cookieparser());
 app.use(morgan("dev"));
 
 // custom middleware
-const protectRoute = require("./middlewares/auth");
+const { protectRoute, setUserInfo } = require("./middlewares/auth");
 
 // routes
+
+// user info
+app.get("*", setUserInfo);
+
 // root
 app.get("/", (req, res) => {
 	res.redirect("/blogs");
 });
 
 // about route
-app.get("/about", (req, res) => {
-	res.render("about", { title: "About" });
+app.get("/profile", (req, res) => {
+	res.render("profile", { title: "Profile" });
 });
 
 // blogs controller
