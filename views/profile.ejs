@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <%- include('../partials/head.ejs') %>
+
+<body>
+    <%- include('../partials/nav.ejs') %>
+        <div class="about content">
+            <% if(user) { %>
+                <h1>
+                    <%= user.name %>
+                </h1>
+                <% } else { %>
+                    <h1>Login to see your info</h1>
+                    <% } %>
+        </div>
+
+        <%- include('../partials/footer.ejs') %>
+</body>
+
+</html

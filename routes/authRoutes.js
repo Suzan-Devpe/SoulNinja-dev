@@ -1,83 +1,16 @@
-const express = require("express");
-const router = express.Router();
-const { checkAuthenticated, checkNotAuthenticated } = require("../config/auth");
-const passport = require("passport");
-const bcrypt = require("bcryptjs");
-const User = require("../models/user");
+const { Router } = require("express");
+const {
+  getRegister,
+  postRegister,
+  getLogin,
+  postLogin,
+  logOut,
+} = require("../controllers/authController");
 
-router.get("/login", checkNotAuthenticated, (req, res) => {
-  res.render("login.ejs");
-});
+const router = new Router();
 
-router.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/auth/login",
-    failureFlash: true,
-  })
-);
-
-router.get("/register", checkNotAuthenticated, (req, res) => {
-  res.render("register.ejs");
-});
-
-router.post("/register", (req, res) => {
-  const { name, email, password } = req.body;
-  let errors = [];
-
-  if (!name || !email || !password) {
-    errors.push({ msg: "Please enter all fields" });
-  }
-
-  if (password.length < 8) {
-    errors.push({ msg: "Password must be at least 8 characters" });
-  }
-
-  if (errors.length > 0) {
-    // implement errors
-    res.render("register");
-  } else {
-    User.findOne({ email: email }).then((user) => {
-      if (user) {
-        errors.push({ msg: "Email already exists" });
-        res.render("register", {
-          errors,
-          name,
-          email,
-          password,
-        });
-      } else {
-        const newUser = new User({
-          name,
-          email,
-          password,
-        });
-
-        bcrypt.genSalt(10, (err, salt) => {
-          bcrypt.hash(newUser.password, salt, (err, hash) => {
-            if (err) throw err;
-            newUser.password = hash;
-            newUser
-              .save()
-              .then((user) => {
-                req.flash(
-                  "success_msg",
-                  "You are now registered and can log in"
-                );
-                res.redirect("/");
-              })
-              .catch((err) => console.log(err));
-          });
-        });
-      }
-    });
-  }
-});
-
-router.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect("/auth/login");
-});
+router.route("/register").get(getRegister).post(postRegister);
+router.route("/login").get(getLogin).post(postLogin);
+router.route("/logout").get(logOut);
 
 module.exports = router;
