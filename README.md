@@ -2,7 +2,7 @@
 blog using node and express. 
 i add features when im bored or wanna learn something new.
 
-ive implemented login and register using passport.
+for authentication, JWT tokens are used and saved in browser cookies
 
 ## for contributors
 - make a `.env` file in config folder
@@ -10,7 +10,7 @@ ive implemented login and register using passport.
 ```
 DBURI=[mongodb uri]
 PORT=[whatever port u want]
-SESSION_SECRET=[am not generating session secrets, so just add some word here]
+JWT_SECRET=[some gibberish]
 ```
 - run `npm install`
 - run `npm run dev`
