@@ -13,7 +13,7 @@ const createToken = (id, name) => {
 };
 
 const getRegister = async (req, res, next) => {
-	res.render("register");
+	res.render("logreg", { rightSide: "right-panel-active" });
 };
 
 const postRegister = async (req, res, next) => {
@@ -54,7 +54,7 @@ const postRegister = async (req, res, next) => {
 };
 
 const getLogin = async (req, res, next) => {
-	res.render("login");
+	res.render("logreg", { rightSide: "" });
 };
 
 const postLogin = async (req, res) => {
