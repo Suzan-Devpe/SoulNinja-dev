@@ -1,6 +1,8 @@
 // blog index, ,blog create get ,blog create post, blog delete
 // blog delete
 
+// protected routes: blog_post, blog_create, blog_post, blog_delete(has to be same user too)
+
 const Blog = require("../models/blog");
 
 const blog_index = (req, res) => {
