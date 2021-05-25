@@ -6,7 +6,7 @@
 <body>
     <%- include('../partials/nav.ejs') %>
     <div class="create-blog content">
-        <form action="/blogs" method="POST">
+        <form id="blog-create-form">
             <label for="title">Blog title:</label>
             <input type="text" id="title" name="title" required>
 
@@ -16,10 +16,41 @@
             <label for="body">Blog body:</label>
             <textarea id="body" name="body" required></textarea>
 
-            <button>Submit</button>
+            <button type="submit">
+                Submit
+            </button>
         </form>
     </div>
 
     <%- include('../partials/footer.ejs') %>
+    <script>
+        const form = document.getElementById("blog-create-form");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            // getting the values
+            const title = document.getElementById("title").value;
+            const snippet = document.getElementById("snippet").value;
+            const body = document.getElementById("body").value;
+
+            const res = await fetch("/blogs", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    title: title,
+                    snippet: snippet,
+                    body: body,
+                    author: "<%= user.id %>",
+                }),
+            });
+            // redirecting
+            if (res.redirected) {
+                window.location = res.url;
+            }
+        });
+    </script>
 </body>
 </html
