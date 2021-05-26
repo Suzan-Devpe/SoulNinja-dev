@@ -1,6 +1,8 @@
 // blog index, ,blog create get ,blog create post, blog delete
 // blog delete
 
+// protected routes: blog_post, blog_create, blog_post, blog_delete(has to be same user too)
+
 const Blog = require("../models/blog");
 
 const blog_index = (req, res) => {
@@ -16,9 +18,16 @@ const blog_index = (req, res) => {
 };
 
 const blog_post = (req, res) => {
-	const blog = new Blog(req.body);
+	const body = req.body;
+	const blog = new Blog({
+		title: body.title,
+		snippet: body.snippet,
+		body: body.body,
+		author: body.author,
+	});
 
-	blog.save()
+	blog
+		.save()
 		.then((result) => {
 			res.redirect("/blogs");
 		})
@@ -32,6 +41,7 @@ const blog_create = (req, res) => {
 const blog_details = (req, res) => {
 	const id = req.params.id;
 	Blog.findById(id)
+		.populate("author", "name email")
 		.then((result) => {
 			res.render("details", { title: "Blog Details", blog: result });
 		})
